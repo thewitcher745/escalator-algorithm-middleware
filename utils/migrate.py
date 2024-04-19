@@ -1,7 +1,15 @@
 import csv
+import os
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backtest_server.settings')
+
+import django
+
+django.setup()
 from backend_api.models import *
 
-csv_path = r"C:\Users\Hamed\Documents\mt_strategy\data\results\backtest\backtest_results.csv"
+csv_path = r"..\backtest_results.csv"
+
 with open(csv_path) as f:
     reader = csv.reader(f)
     next(reader)

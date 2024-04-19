@@ -50,7 +50,16 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'backtest_server.urls'
-
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+    ],
+    'SEARCH_PARAM': 'search',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pa .gination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

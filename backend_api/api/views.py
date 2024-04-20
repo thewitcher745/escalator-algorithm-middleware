@@ -17,3 +17,8 @@ class GeneralReportsAV(viewsets.ModelViewSet):
         paginated_queryset = self.paginate_queryset(self.queryset)
         serializer = self.serializer_class(paginated_queryset, many=True)
         return serializer.data
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+
+        return self.get_paginated_response(queryset)

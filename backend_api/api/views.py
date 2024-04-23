@@ -8,10 +8,22 @@ from rest_framework import viewsets, status
 from rest_framework.pagination import PageNumberPagination
 
 
+class DynamicPagination(PageNumberPagination):
+    page_size_query_param = 'page_size'
+
+    def get_page_size(self, request):
+        page_size = request.query_params.get(self.page_size_query_param, self.page_size)
+        try:
+            page_size = int(page_size)
+        except ValueError:
+            page_size = self.page_size
+        return page_size
+
+
 class GeneralReportsAV(viewsets.ModelViewSet):
     queryset = GeneralReport.objects.all()
     serializer_class = ReportsSerializer
-    pagination_class = PageNumberPagination
+    pagination_class = DynamicPagination
 
     def get_queryset(self):
         paginated_queryset = self.paginate_queryset(self.queryset)

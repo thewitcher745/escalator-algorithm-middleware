@@ -1,3 +1,5 @@
+import time
+
 from django.db import connection
 from django.shortcuts import render
 from rest_framework.response import Response
@@ -26,8 +28,11 @@ class GeneralReportsAV(viewsets.ModelViewSet):
     pagination_class = DynamicPagination
 
     def get_queryset(self):
+        delay = self.request.query_params.get('delay')
         paginated_queryset = self.paginate_queryset(self.queryset)
         serializer = self.serializer_class(paginated_queryset, many=True)
+        if delay:
+            time.sleep(int(delay))
         return serializer.data
 
     def list(self, request, *args, **kwargs):
